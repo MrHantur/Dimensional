@@ -1,6 +1,8 @@
 package su.mrhantur;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -9,6 +11,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -22,6 +27,7 @@ public class Main extends JavaPlugin implements Listener {
         this.loadUnblockDate();
         this.getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("setdimensiondate").setExecutor(this);
+        Bukkit.getConsoleSender().sendMessage("Dimensional plugin is now working!");
     }
 
     private final Map<String, LocalDateTime> unblockDate = new HashMap();
@@ -87,13 +93,17 @@ public class Main extends JavaPlugin implements Listener {
             if (LocalDateTime.now().isBefore(this.unblockDate.get("nether"))) {
                 event.setCancelled(true);
                 String red = String.valueOf(ChatColor.RED);
-                player.sendMessage(red + "Незер" + ChatColor.RESET + " закрыт до " + this.unblockDate.get("nether").format(this.dateFormatter) + ".");
+                String gray = String.valueOf(ChatColor.GRAY);
+                player.sendActionBar(red + "Незер" + ChatColor.RESET + " закрыт до " + gray + this.unblockDate.get("nether").format(this.dateFormatter) + ChatColor.RESET);
+                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2F, 1.0F);
             }
         } else if (targetEnvironment == World.Environment.THE_END && LocalDateTime.now().isBefore(this.unblockDate.get("end"))) {
             event.setCancelled(true);
             String purple = String.valueOf(ChatColor.DARK_PURPLE);
-            player.sendMessage(purple + "Энд" + ChatColor.RESET + " закрыт до " + this.unblockDate.get("end").format(this.dateFormatter) + ".");
+            String gray = String.valueOf(ChatColor.GRAY);
+            player.sendActionBar(purple + "Энд" + ChatColor.RESET + " закрыт до " + gray + this.unblockDate.get("end").format(this.dateFormatter) + ChatColor.RESET);
+            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 0.2F, 1.0F);
+            player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 200, 0));
         }
-
     }
 }
