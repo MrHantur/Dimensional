@@ -27,6 +27,7 @@ public class Main extends JavaPlugin implements Listener {
         this.loadUnblockDate();
         this.getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("setdimensiondate").setExecutor(this);
+        this.getCommand("servertime").setExecutor(this);
         Bukkit.getConsoleSender().sendMessage("Dimensional plugin is now working!");
     }
 
@@ -80,9 +81,12 @@ public class Main extends JavaPlugin implements Listener {
                 }
             }
             return true;
-        } else {
-            return false;
+        } else if (command.getName().equalsIgnoreCase("servertime")) {
+            String currentTime = LocalDateTime.now().format(dateFormatter);
+            sender.sendMessage("Текущее время сервера " + ChatColor.GRAY + currentTime);
+            return true;
         }
+        return false;
     }
 
     @EventHandler

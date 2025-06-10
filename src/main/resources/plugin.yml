@@ -1,5 +1,5 @@
 name: Dimensional
-version: 1.1
+version: 1.2
 main: su.mrhantur.Main
 description: Lock dimensions until a specific time
 author: MrHantur
@@ -11,10 +11,14 @@ commands:
     description: Lock the Nether or the End until a certain date has passed.
     usage: /setdimensiondate <nether|end> <dd-MM-yyyy HH:mm>
     permission: dimensional.control
+  servertime:
+    description: Shows current server time and dimension lock status
+    usage: /servertime
+    permission: dimensional.default
 permissions:
   dimensional.control:
     description: "Permission for controlling plugin"
     default: op
   dimensional.default:
     description: "This is permission for regular commands"
-    default: notop
+    default: true
